@@ -1,18 +1,46 @@
+players = (function(){
 const playerFactory = (name, team) => {
     const printName = () => {return name};
-    return {printName, team};
+    const printTeam = () => {return team};
+    return {printName, printTeam, name}
 }
-gameMod = (function(){})
-let whosGo = 'playerOne'
+
+const playerOne = playerFactory('', 'x')
+const playerTwo = playerFactory('', 'o')
+
+return {
+    playerOne, playerTwo
+}
+})()
+gameMod = (function(){
+
+
+let whosGo = players.playerOne
 const turnSwapper = () => {
-    if (whosGo === 'playerOne') {
-        whosGo = 'playerTwo';
-    } if (whosGo === 'playerTwo') {
-        whosGo = 'playerOne';
+    if (whosGo === players.playerOne) {
+        whosGo = players.playerTwo;
+    } else if (whosGo === players.playerTwo) {
+        whosGo = players.playerOne;
     }
 };
-const playerOne = playerFactory('greg', 'x')
-const playerTwo = playerFactory('eanus', 'o')
+
+document.addEventListener('click', function(e){
+    const elem = this.elementFromPoint(e.clientX, e.clientY);
+    console.log(elem)
+    if (elem.classList.contains('boardTile')) {
+        if(elem.textContent === '') {
+            elem.textContent = whosGo.printTeam();
+            turnSwapper()
+            gameBoardMod.victoryCheck()
+            return
+        } else {
+            console.log('na bo, das taken G')
+        }
+    }
+})
+})()
+
+
 // const tile1 = document.getElementById('tile1');
 // const tile2 = document.getElementById('tile2');
 // const tile3 = document.getElementById('tile3');
