@@ -2,20 +2,39 @@ const playerFactory = (name, team) => {
     const printName = () => {return name};
     return {printName, team};
 }
-
+gameMod = (function(){})
+let whosGo = 'playerOne'
+const turnSwapper = () => {
+    if (whosGo === 'playerOne') {
+        whosGo = 'playerTwo';
+    } if (whosGo === 'playerTwo') {
+        whosGo = 'playerOne';
+    }
+};
 const playerOne = playerFactory('greg', 'x')
 const playerTwo = playerFactory('eanus', 'o')
-const tile1 = document.getElementById('tile1');
-const tile2 = document.getElementById('tile2');
-const tile3 = document.getElementById('tile3');
-const tile4 = document.getElementById('tile4');
-const tile5 = document.getElementById('tile5');
-const tile6 = document.getElementById('tile6');
-const tile7 = document.getElementById('tile7');
-const tile8 = document.getElementById('tile8');
-const tile9 = document.getElementById('tile9');
+// const tile1 = document.getElementById('tile1');
+// const tile2 = document.getElementById('tile2');
+// const tile3 = document.getElementById('tile3');
+// const tile4 = document.getElementById('tile4');
+// const tile5 = document.getElementById('tile5');
+// const tile6 = document.getElementById('tile6');
+// const tile7 = document.getElementById('tile7');
+// const tile8 = document.getElementById('tile8');
+// const tile9 = document.getElementById('tile9');
 
 const gameBoardMod = (function(){
+    //game tiles in DOM
+    const tile1 = document.getElementById('tile1');
+    const tile2 = document.getElementById('tile2');
+    const tile3 = document.getElementById('tile3');
+    const tile4 = document.getElementById('tile4');
+    const tile5 = document.getElementById('tile5');
+    const tile6 = document.getElementById('tile6');
+    const tile7 = document.getElementById('tile7');
+    const tile8 = document.getElementById('tile8');
+    const tile9 = document.getElementById('tile9');
+
     const gameBoard = [
         [tile1,tile2,tile3],
         [tile4,tile5,tile6],
@@ -51,25 +70,57 @@ const gameBoardMod = (function(){
         }
         return cleanBoard;
     }
-    const victoryCondition = (array) => {
-        if (
-            array[0][0] !== '' && array[1][1] !== '' && array[2][2] !== '' &&
-            ((array[0][0] === array[0][1] && array[0][0] === array[0][2]) ||
-            (array[1][0] === array[1][1] && array[1][0] === array[1][2]) ||
-            (array[2][0] === array[2][1] && array[2][0] === array[2][2]) ||
-            (array[0][0] === array[1][0] && array[0][0] === array[2][0]) ||
-            (array[0][1] === array[1][1] && array[0][1] === array[2][1]) ||
-            (array[0][2] === array[1][2] && array[0][2] === array[2][2]) ||
-            (array[0][0] === array[1][1] && array[0][0] === array[2][2]) ||
-            (array[2][0] === array[1][1] && array[2][0] === array[0][2]))
-        ) {
-            console.log('vicory')
-        } else {
-            console.log('not victory')
+    // creates an array with all rows, columns and full diagonals of a given 2d array
+    function arrayMaker(array) {
+        if(array.length !== array[0].length){return console.log('not a 2d array')}
+        let lines = []
+        let x = array.length -1
+        let diagonal1 = []
+        let diagonal2 = []
+        for (let i = 0; i < array.length; i ++) {
+            let currentRow = []
+            let currentColumn =[]
+            for (let j = 0; j < array[i].length; j++){
+              currentRow.push(array[i][j])
+              currentColumn.push(array[j][i])
+            }
+            lines.push(currentRow, currentColumn);
+            diagonal1.push(array[i][i])
+            diagonal2.push(array[x][i])
+            x--
         }
-    }
+        lines.push(diagonal2, diagonal1)
+        return lines;
+      }
+      function victory(arr) {
+        const allEqual = arr => arr.every( v => v === arr[0] )
+        //checks if any column, row or diagonal on board contains all same markers
+        //also checks to prevent an empty line from giving a false poisitive
+        for(let i = 0; i < arr.length; i++){
+          if(allEqual(arr[i]) && !arr[i].includes('')) {return console.log('yay' + i)}
+        }
+        console.log('na bo')
+      }
+
+    // const victoryCondition = (array) => {
+    //     if (
+    //         array[0][0] !== '' && array[1][1] !== '' && array[2][2] !== '' &&
+    //         ((array[0][0] === array[0][1] && array[0][0] === array[0][2]) ||
+    //         (array[1][0] === array[1][1] && array[1][0] === array[1][2]) ||
+    //         (array[2][0] === array[2][1] && array[2][0] === array[2][2]) ||
+    //         (array[0][0] === array[1][0] && array[0][0] === array[2][0]) ||
+    //         (array[0][1] === array[1][1] && array[0][1] === array[2][1]) ||
+    //         (array[0][2] === array[1][2] && array[0][2] === array[2][2]) ||
+    //         (array[0][0] === array[1][1] && array[0][0] === array[2][2]) ||
+    //         (array[2][0] === array[1][1] && array[2][0] === array[0][2]))
+    //     ) {
+    //         console.log('vicory')
+    //     } else {
+    //         console.log('not victory')
+    //     }
+    // }
     const victoryCheck = () => {
-        victoryCondition(checkBoard())
+        victory(arrayMaker(checkBoard(gameBoard)))
     }
     return {
         clearBoard,
@@ -103,22 +154,6 @@ const gameBoardMod = (function(){
 
 //clears current tile, for use with objectLooper
 
-//placeholder for starting the game ?needed
-function createBoard(param) {
-    param.textContent = '<3'
-}
-//reads board and creates a clean more readable array with just the textcontent of the tiles
-function checkBoard() {
-    let cleanBoard = []
-    function tile(tile){
-        return tile.textContent
-    }
-    for (let i = 0; i < gameBoard2.length; i ++) {
-        let currentLine = gameBoard2[i].map(tile)
-        cleanBoard.push(currentLine);
-    }
-    return cleanBoard;
-}
 // takes an array as parameter and checks if any line or diagonal contains the same symbol
 // const victoryCheck = (array) => {
 //     if (
