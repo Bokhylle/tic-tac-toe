@@ -5,8 +5,8 @@ const playerFactory = (name, team) => {
     return {printName, printTeam, name}
 }
 
-const playerOne = playerFactory('', 'x')
-const playerTwo = playerFactory('', 'o')
+const playerOne = playerFactory('', 'X')
+const playerTwo = playerFactory('', 'O')
 
 return {
     playerOne, playerTwo
@@ -24,20 +24,27 @@ const turnSwapper = () => {
     }
 };
 
-document.addEventListener('click', function(e){
-    const elem = this.elementFromPoint(e.clientX, e.clientY);
-    console.log(elem)
-    if (elem.classList.contains('boardTile')) {
-        if(elem.textContent === '') {
-            elem.textContent = whosGo.printTeam();
-            turnSwapper()
-            gameBoardMod.victoryCheck()
-            return
-        } else {
-            console.log('na bo, das taken G')
+function enablePlay() {
+    // if (document.addEventListener('click', makeMove))
+        document.addEventListener('click', makeMove)
+        function makeMove (e){
+        const elem = this.elementFromPoint(e.clientX, e.clientY);
+        console.log(elem)
+        if (elem.classList.contains('boardTile')) {
+            if(elem.textContent === '') {
+                elem.textContent = whosGo.printTeam();
+                turnSwapper()
+                gameBoardMod.victoryCheck()
+                return
+            } else {
+                console.log('na bo, das taken G')
+            }
         }
     }
-})
+}
+return {
+    enablePlay
+}
 })()
 
 
@@ -113,6 +120,7 @@ const gameBoardMod = (function(){
               currentColumn.push(array[j][i])
             }
             lines.push(currentRow, currentColumn);
+            // adds arrays for the two diagonals of the board
             diagonal1.push(array[i][i])
             diagonal2.push(array[x][i])
             x--
