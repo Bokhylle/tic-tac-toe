@@ -1,31 +1,94 @@
+:root {
+    --darkmain: #000249;
+    --lightmain: #0F4392;
+    --darksecondary: #DD1717;
+    --lightsecondary: #FF4949;
+}
 * {
     box-sizing: border-box;
 }
 html {
     height: 100vh;
+    max-width: 100vw;
+    overflow: hidden;
 }
 body {
     margin: 0;
+    height: 100%;
 }
 .flex {
     display: flex;
 }
+.background {
+    height: 100%;
+    width: 100%;
+    position: absolute;
+}
+.red {
+    width: 50%;
+    height: 100%;
+    background-color: rgb(97, 97, 97);
+    transform: skewX(10deg);
+}
+.blue {
+    background-color: var(--lightmain);
+    
+}
+#oneName {
+    background-color: var(--darksecondary);
+}
+#twoName {
+    background-color: var(--darkmain);
+}
+#gameContainer {
+    position: relative;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+    top: 10%;
+    height: 60%
+}
 #boardContainer {
-    height: 600px;
-    width: 600px;
-    background-color: aliceblue;
     flex-wrap: wrap;
-    gap: 5px;
-    justify-content: space-evenly;
+    width: 100%;
+    height: auto;
+    gap: 15px;
+    justify-content: center;
+    align-items: stretch;
 }
 .boardTile {
-    max-width: 200px;
-    max-height: 200px;
-    height: 30%;
-    width: 30%;
-    background-color: black;
+    width: 100px;
+    height: 100px;
+    background-color: blanchedalmond;
     flex: 1 1 100;
-    color: white;
-    font-size: 150px;
+    color: transparent;
+    font-size: 100px;
     text-align: center;
+    background-size: cover;
+}
+.x {
+    background-image: url(../img/clear_black_36dp.png);
+}
+.o {
+    background-image: url(../img/radio_button_unchecked_black_36dp.svg);
+}
+.c {
+    background-image: url(../img/Chorn\ Logo.png);
+}
+#controlContainer {
+    justify-content: space-evenly;
+    height: auto;
+    width: 100%;
+    align-items: center;
+}
+.gameBtn button{
+    width: 80px;
+    height: 40px;
+    font-size: 26px;
+}
+.nameInput input {
+    width: 130px;
+    flex-shrink: 0;
+    height: 30px;
+    font-size: 20px;
 }

@@ -2,18 +2,21 @@ players = (function(){
 const playerFactory = (name, team) => {
     const printName = () => {return name};
     const printTeam = () => {return team};
+    const printIcon = () => {return iconTag}
     return {printName, printTeam, name}
 }
 
-const playerOne = playerFactory('', 'X')
-const playerTwo = playerFactory('', 'O')
+const playerOne = playerFactory('', 'x')
+const playerTwo = playerFactory('', 'o')
 
 return {
     playerOne, playerTwo
 }
 })()
 gameMod = (function(){
-
+const playBtn = document.getElementById('playBtn')
+const oneName = document.getElementById('oneName')
+const twoName = document.getElementById('twoName')
 
 let whosGo = players.playerOne
 const turnSwapper = () => {
@@ -23,27 +26,45 @@ const turnSwapper = () => {
         whosGo = players.playerOne;
     }
 };
-
-function enablePlay() {
-    // if (document.addEventListener('click', makeMove))
-        document.addEventListener('click', makeMove)
-        function makeMove (e){
-        const elem = this.elementFromPoint(e.clientX, e.clientY);
-        console.log(elem)
-        if (elem.classList.contains('boardTile')) {
-            if(elem.textContent === '') {
-                elem.textContent = whosGo.printTeam();
-                turnSwapper()
-                gameBoardMod.victoryCheck()
-                return
-            } else {
-                console.log('na bo, das taken G')
-            }
+function makeMove (e){
+    const elem = this.elementFromPoint(e.clientX, e.clientY);
+    console.log(elem)
+    if (elem.classList.contains('boardTile')) {
+        if(elem.textContent === '') {
+            elem.textContent = whosGo.printTeam();
+            elem.classList.add(whosGo.printTeam())
+            turnSwapper()
+            gameBoardMod.victoryCheck()
+            return
+        } else {
+            console.log('na bo, das taken G')
         }
     }
 }
+function enablePlay() {
+
+        document.addEventListener('click', makeMove)
+    }
+function disablePlay() {
+        document.removeEventListener('click', makeMove)
+    }
+    playBtn.onclick  = () => {
+        if (playBtn.textContent === 'Reset') {
+            disablePlay()
+            playBtn.textContent = 'Play'
+            oneName.disabled = false;
+            twoName.disabled = false;
+            gameBoardMod.clearBoard()
+            return
+        }
+        enablePlay()
+        oneName.disabled = true;
+        twoName.disabled = true;
+        playBtn.textContent = 'Reset'
+    }
 return {
-    enablePlay
+    enablePlay,
+    disablePlay
 }
 })()
 
@@ -92,6 +113,9 @@ const gameBoardMod = (function(){
     function clearBoard() {
         objectLooper(gameBoard, function(param){
             param.textContent = ''
+            param.classList.remove('x')
+            param.classList.remove('o')
+            param.classList.remove('c')
         })
     }
     function checkBoard() {

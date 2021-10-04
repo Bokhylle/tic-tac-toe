@@ -8,17 +8,25 @@
     <title>Tic Tac Toe</title>
 </head>
 <body>
-    <div id="gameContainer">
+    <div class="background blue"> <div class="background red"></div></div>
+   
+    <div id="gameContainer" class="flex">
         <div id="boardContainer" class="flex">
-            <div id='tile1' class="boardTile">x</div>
+            <div id='tile1' class="boardTile"></div>
             <div id='tile2' class="boardTile"></div>
-            <div id='tile3' class="boardTile">o</div>
-            <div id='tile4' class="boardTile">x</div>
+            <div id='tile3' class="boardTile"></div>
+            <div id='tile4' class="boardTile"></div>
             <div id='tile5' class="boardTile"></div>
-            <div id='tile6' class="boardTile">o</div>
-            <div id='tile7' class="boardTile">o</div>
+            <div id='tile6' class="boardTile"></div>
+            <div id='tile7' class="boardTile"></div>
             <div id='tile8' class="boardTile"></div>
-            <div id='tile9' class="boardTile">o</div>
+            <div id='tile9' class="boardTile"></div>
+        </div>
+        <div id="controlContainer" class="flex">
+            <div class="nameInput"><input id="oneName" type="text"></div>
+            <div class="gameBtn"><button id="playBtn">play</button></div>
+            <div class="nameInput"><input id="twoName" type="text"></div>
+            
         </div>
     </div>
     
