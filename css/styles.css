@@ -1,0 +1,30 @@
+* {
+    box-sizing: border-box;
+}
+html {
+    height: 100vh;
+}
+body {
+    margin: 0;
+}
+.flex {
+    display: flex;
+}
+#boardContainer {
+    height: 600px;
+    width: 600px;
+    background-color: aliceblue;
+    flex-wrap: wrap;
+    gap: 5px;
+    justify-content: space-evenly;
+}
+.boardTile {
+    max-width: 200px;
+    max-height: 200px;
+    height: 30%;
+    width: 30%;
+    background-color: black;
+    flex: 1 1 100;
+    color: white;
+    font-size: 150px;
+}
