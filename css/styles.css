@@ -50,13 +50,15 @@ body {
     right: 0;
     margin: auto;
     flex-direction: column;
-    justify-content: space-evenly;
+
     align-items: center;
     height: 90%
 }
 #boardContainer {
+    position: relative;
     flex-wrap: wrap;
     width: 314px;
+    top: 70px;
     height: auto;
     gap: 7px;
     justify-content: center;
@@ -87,12 +89,13 @@ body {
     background-image: url(../img/Chorn\ Logo.png);
 }
 #controlContainer {
-    position: relative;
+    position: absolute;
     justify-content: space-evenly;
     height: auto;
     width: 100%;
     align-items: center;
-    bottom: 40px
+    bottom: 80px;
+    z-index: 5;
 }
 .gameBtn button{
     width: 80px;
