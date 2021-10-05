@@ -1,22 +1,25 @@
-players = (function(){
-const playerFactory = (name, team) => {
-    const printName = () => {return name};
-    const printTeam = () => {return team};
-    const printIcon = () => {return iconTag}
-    return {printName, printTeam, name}
-}
 
-const playerOne = playerFactory('', 'x')
-const playerTwo = playerFactory('', 'o')
-
-return {
-    playerOne, playerTwo
-}
-})()
 gameMod = (function(){
+let turnsPlayed = 0;
+    players = (function(){
+        const playerFactory = (name, team) => {
+            const printName = () => {return name};
+            const printTeam = () => {return team};
+            const printIcon = () => {return iconTag}
+            return {printName, printTeam, name}
+        }
+        
+        const playerOne = playerFactory('', 'x')
+        const playerTwo = playerFactory('', 'c')
+        
+        return {
+            playerOne, playerTwo
+        }
+        })()
 const playBtn = document.getElementById('playBtn')
 const oneName = document.getElementById('oneName')
 const twoName = document.getElementById('twoName')
+const gameInfo = document.querySelector('.infotext')
 
 let whosGo = players.playerOne
 const turnSwapper = () => {
@@ -26,6 +29,9 @@ const turnSwapper = () => {
         whosGo = players.playerOne;
     }
 };
+function setGameInfo() {
+    gameInfo.textContent = whosGo.name + `'s turn\r\nfor team ` + whosGo.printTeam().toUpperCase()
+}
 function makeMove (e){
     const elem = this.elementFromPoint(e.clientX, e.clientY);
     console.log(elem)
@@ -33,8 +39,12 @@ function makeMove (e){
         if(elem.textContent === '') {
             elem.textContent = whosGo.printTeam();
             elem.classList.add(whosGo.printTeam())
+            turnsPlayed++
+            victoryCheck()
+            gameInfo.classList.remove(whosGo.printTeam() + 2)
             turnSwapper()
-            gameBoardMod.victoryCheck()
+            gameInfo.classList.add(whosGo.printTeam() + 2)
+            setGameInfo()
             return
         } else {
             console.log('na bo, das taken G')
@@ -42,29 +52,89 @@ function makeMove (e){
     }
 }
 function enablePlay() {
-
         document.addEventListener('click', makeMove)
     }
 function disablePlay() {
         document.removeEventListener('click', makeMove)
     }
-    playBtn.onclick  = () => {
+    playBtn.onclick  = play
+    
+    function play() {
+        console.log(oneName)
+        if (oneName.value == '' || twoName.value == ''){
+            gameInfo.textContent = 'Please enter player names!'
+            return
+        }
         if (playBtn.textContent === 'Reset') {
             disablePlay()
             playBtn.textContent = 'Play'
             oneName.disabled = false;
             twoName.disabled = false;
             gameBoardMod.clearBoard()
+            gameInfo.textContent = ''
+            turnsPlayed = 0;
             return
         }
         enablePlay()
         oneName.disabled = true;
         twoName.disabled = true;
+        players.playerOne.name = oneName.value
+        players.playerTwo.name = twoName.value
         playBtn.textContent = 'Reset'
+        turnsPlayed = 0;
+        setGameInfo()
     }
+function gameover(name) {
+    const victoryCont = document.createElement('div')
+    const victoryBackground = document.createElement('div')
+    const winTitle = document.createElement('h1')
+    const winText = document.createElement('p')
+    const replay = document.createElement('p')
+    if(name === 'draw') {
+        winTitle.textContent = 'DRAW'
+        winText.textContent = ''
+        replay.textContent = 'Play again?'
+    } else {
+    winTitle.textContent = 'WINNER'
+    winText.textContent = name
+    replay.textContent = 'Play again?'
+    }
+    victoryCont.classList.add('vicCont')
+    victoryBackground.classList.add('vicBck')
+    victoryCont.appendChild(winTitle);
+    victoryCont.appendChild(winText);
+    victoryCont.appendChild(replay);
+
+    document.body.appendChild(victoryBackground)
+    document.body.appendChild(victoryCont);
+
+    replay.onclick = () => {
+        play()
+        document.body.removeChild(victoryBackground)
+        document.body.removeChild(victoryCont)
+        
+    };
+}
+    function victory(arr) {
+        const allEqual = arr => arr.every( v => v === arr[0] )
+        //checks if any column, row or diagonal on board contains all same markers
+        //also checks to prevent an empty line from giving a false poisitive
+        for(let i = 0; i < arr.length; i++){
+          if(allEqual(arr[i]) && !arr[i].includes('')) {
+              return gameover(whosGo.name)
+            }
+        }
+        console.log('na bo')
+      }
+      const victoryCheck = () => {
+          if (turnsPlayed >= 9){
+              gameover('draw')
+          }
+        victory(gameBoardMod.checkLines())
+    }
+
 return {
-    enablePlay,
-    disablePlay
+    whosGo
 }
 })()
 
@@ -152,15 +222,7 @@ const gameBoardMod = (function(){
         lines.push(diagonal2, diagonal1)
         return lines;
       }
-      function victory(arr) {
-        const allEqual = arr => arr.every( v => v === arr[0] )
-        //checks if any column, row or diagonal on board contains all same markers
-        //also checks to prevent an empty line from giving a false poisitive
-        for(let i = 0; i < arr.length; i++){
-          if(allEqual(arr[i]) && !arr[i].includes('')) {return console.log('yay' + i)}
-        }
-        console.log('na bo')
-      }
+
 
     // const victoryCondition = (array) => {
     //     if (
@@ -179,13 +241,14 @@ const gameBoardMod = (function(){
     //         console.log('not victory')
     //     }
     // }
-    const victoryCheck = () => {
-        victory(arrayMaker(checkBoard(gameBoard)))
+
+    const checkLines = () => {
+        return arrayMaker(checkBoard())
     }
     return {
         clearBoard,
         checkBoard,
-        victoryCheck
+        checkLines
     }
 })()
 //end of module / object

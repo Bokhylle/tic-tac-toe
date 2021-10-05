@@ -27,47 +27,58 @@ body {
 .red {
     width: 50%;
     height: 100%;
-    background-color: rgb(97, 97, 97);
-    transform: skewX(10deg);
+    background-color: rgb(189, 102, 99);
+
+    
 }
 .blue {
     background-color: var(--lightmain);
     
 }
 #oneName {
-    background-color: var(--darksecondary);
+    background-color: rgb(139, 39, 39);
+    color: rgb(252, 245, 240);
 }
 #twoName {
-    background-color: var(--darkmain);
+    background-color: rgb(88, 88, 212);
+    color: rgb(252, 245, 240);
 }
 #gameContainer {
-    position: relative;
+    max-width: 400px;
+    position: absolute;
+    left: 0;
+    right: 0;
+    margin: auto;
     flex-direction: column;
-    justify-content: space-between;
+    justify-content: space-evenly;
     align-items: center;
-    top: 10%;
-    height: 60%
+    height: 90%
 }
 #boardContainer {
     flex-wrap: wrap;
-    width: 100%;
+    width: 330px;
     height: auto;
     gap: 15px;
     justify-content: center;
     align-items: stretch;
+    background-color: black;
+    border-radius: 10px;
+    overflow: hidden;
 }
 .boardTile {
     width: 100px;
     height: 100px;
-    background-color: blanchedalmond;
+    background-color: rgb(255, 255, 255);
     flex: 1 1 100;
     color: transparent;
     font-size: 100px;
     text-align: center;
     background-size: cover;
+    
 }
 .x {
     background-image: url(../img/clear_black_36dp.png);
+
 }
 .o {
     background-image: url(../img/radio_button_unchecked_black_36dp.svg);
@@ -76,10 +87,12 @@ body {
     background-image: url(../img/Chorn\ Logo.png);
 }
 #controlContainer {
+    position: relative;
     justify-content: space-evenly;
     height: auto;
     width: 100%;
     align-items: center;
+    bottom: 40px
 }
 .gameBtn button{
     width: 80px;
@@ -91,4 +104,60 @@ body {
     flex-shrink: 0;
     height: 30px;
     font-size: 20px;
+    text-align: center;
+}
+.nameInput input:disabled {
+    width: 130px;
+    flex-shrink: 0;
+    height: 30px;
+    font-size: 20px;
+    text-align: center;
+    color: rgb(255, 219, 58);
+    background-color: white;
+}
+.vicBck {
+    display: flex;
+    justify-content: center;
+    background-color: black;
+    height: 100%;
+    width: 100%;
+    z-index: 1;
+    position: absolute;
+    top: 0;
+    opacity: 70%;
+    transition-duration: 1.2s;
+}
+
+.vicCont {
+    position: absolute;
+    height: 60%;
+    width: 90%;
+    text-align: center;
+    top: 10%;
+    font-size: 40px;
+    color: gold;
+    opacity: 100%;
+    z-index: 2;
+    left: 0;
+    right: 0;
+    margin: auto;
+    text-shadow: 0 0 10px  black, 0 0 7px blanchedalmond;
+    transition-duration: 1.2s;
+}
+.infoContainer {
+    position: absolute;
+    bottom: 0;
+
+    height: 100px;
+    width: 90%;
+
+}
+.infotext {
+    text-align: center;
+    position: relative;
+    font-size: 40px;
+    white-space: pre-line;
+    font-weight: 600;
+    color: rgb(16, 25, 41);
+
 }
