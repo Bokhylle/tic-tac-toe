@@ -57,7 +57,7 @@ function enablePlay() {
 function disablePlay() {
         document.removeEventListener('click', makeMove)
     }
-    playBtn.addEventListener('click', function() {
+    playBtn.addEventListener('touchstart', function() {
         play()});
     
     function play() {
