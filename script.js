@@ -57,7 +57,7 @@ function enablePlay() {
 function disablePlay() {
         document.removeEventListener('click', makeMove)
     }
-    playBtn.onclick  = play
+    playBtn.addEventListener('click', play)
     
     function play() {
         console.log(oneName)
