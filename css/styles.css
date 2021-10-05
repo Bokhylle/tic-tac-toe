@@ -94,7 +94,7 @@ body {
     height: auto;
     width: 100%;
     align-items: center;
-    bottom: 80px;
+    top: 80%;
     z-index: 5;
 }
 .gameBtn button{
