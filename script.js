@@ -135,6 +135,7 @@ function gameover(name) {
     }
 
 return {
+    play,
     whosGo
 }
 })()
