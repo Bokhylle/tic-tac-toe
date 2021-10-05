@@ -10,7 +10,7 @@ let turnsPlayed = 0;
         }
         
         const playerOne = playerFactory('', 'x')
-        const playerTwo = playerFactory('', 'c')
+        const playerTwo = playerFactory('', 'o')
         
         return {
             playerOne, playerTwo
